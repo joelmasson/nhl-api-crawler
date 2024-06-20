@@ -48,26 +48,15 @@ export interface Roster {
     link: string;
 }
 export interface TeamData {
+    rawTricode: string;
+    triCode: string;
     id: number;
-    name: string;
-    link: string;
-    venue: Venue;
-    abbreviation: string;
-    teamName: string;
-    locationName: string;
-    firstYearOfPlay: string;
-    division: Division;
-    conference: Conference;
-    franchise: Franchise;
-    roster: Roster;
-    shortName: string;
-    officialSiteUrl: string;
+    fullName: string;
     franchiseId: number;
-    active: boolean;
+    leagueId: number;
 }
 export interface TeamProfileData {
-    copyright: string;
-    teams: TeamData[];
+    data: TeamData[];
 }
 export default interface TeamProfile {
     data: TeamProfileData;

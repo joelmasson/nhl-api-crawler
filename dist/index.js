@@ -86,24 +86,21 @@ var crawlTeams = function () { return __awaiter(void 0, void 0, void 0, function
                 return [4 /*yield*/, axios_1.default("https://api.nhle.com/stats/rest/en/team")];
             case 1:
                 teamProfiles = _a.sent();
-                for (i = 0; i < teamProfiles.data.teams.length; i += 1) {
-                    teamData = teamProfiles.data.teams[i];
+                console.log(teamProfiles);
+                for (i = 0; i < teamProfiles.data.data.length; i += 1) {
+                    teamData = teamProfiles.data.data[i];
                     team = {
                         id: teamData.id,
-                        name: teamData.name,
-                        venue: teamData.venue.name,
-                        city: teamData.venue.city,
-                        abbreviation: teamData.abbreviation,
-                        teamName: teamData.teamName,
-                        locationName: teamData.locationName,
-                        division: teamData.division.name,
-                        divisionId: teamData.division.id,
-                        conference: teamData.conference.name,
-                        conferenceId: teamData.conference.id,
+                        fullName: teamData.fullName,
+                        rawTricode: teamData.rawTricode,
+                        triCode: teamData.triCode,
+                        franchiseId: teamData.franchiseId,
+                        leagueId: teamData.leagueId
                     };
                     teams.push(team);
                 }
                 console.log('Finished team crawl');
+                console.log(teams);
                 return [2 /*return*/, teams];
         }
     });

@@ -22,20 +22,15 @@ export const crawlTeams = async () => {
   console.log('Beginning team crawl')
   const teams: Team[] = []
   const teamProfiles: TeamProfile = await request(`https://api.nhle.com/stats/rest/en/team`)
-  for (let i: number = 0; i < teamProfiles.data.teams.length; i += 1) {
-    const teamData: TeamData = teamProfiles.data.teams[i]
+  for (let i: number = 0; i < teamProfiles.data.data.length; i += 1) {
+    const teamData: TeamData = teamProfiles.data.data[i]
     const team: Team = {
       id: teamData.id,
-      name: teamData.name,
-      venue: teamData.venue.name,
-      city: teamData.venue.city,
-      abbreviation: teamData.abbreviation,
-      teamName: teamData.teamName,
-      locationName: teamData.locationName,
-      division: teamData.division.name,
-      divisionId: teamData.division.id,
-      conference: teamData.conference.name,
-      conferenceId: teamData.conference.id,
+      fullName: teamData.fullName,
+      rawTricode: teamData.rawTricode,
+      triCode: teamData.triCode,
+      franchiseId: teamData.franchiseId,
+      leagueId: teamData.leagueId
     }
     teams.push(team)
   }
