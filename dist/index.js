@@ -83,7 +83,7 @@ var crawlTeams = function () { return __awaiter(void 0, void 0, void 0, function
             case 0:
                 console.log('Beginning team crawl');
                 teams = [];
-                return [4 /*yield*/, axios_1.default("http://statsapi.web.nhl.com/api/v1/teams")];
+                return [4 /*yield*/, axios_1.default("https://api.nhle.com/stats/rest/en/team")];
             case 1:
                 teamProfiles = _a.sent();
                 for (i = 0; i < teamProfiles.data.teams.length; i += 1) {
@@ -186,7 +186,7 @@ var crawlPlayers = function (startYear, endYear) { return __awaiter(void 0, void
                 if (!!playerIdSet_1_1.done) return [3 /*break*/, 15];
                 playerId = playerIdSet_1_1.value;
                 console.log("fetching player " + playerId);
-                return [4 /*yield*/, axios_1.default("https://statsapi.web.nhl.com/api/v1/people/" + playerId + "?expand=person")];
+                return [4 /*yield*/, axios_1.default("https://api-web.nhle.com/v1/player/" + playerId + "/landing")];
             case 13:
                 playerProfile = _h.sent();
                 playerData = playerProfile.data.people[0];
@@ -254,7 +254,7 @@ var crawlEvents = function (startDate, endDate) { return __awaiter(void 0, void 
                 if (!!gamePks_1_1.done) return [3 /*break*/, 7];
                 gamePk = gamePks_1_1.value;
                 console.log("Beginning game " + gamePk);
-                return [4 /*yield*/, axios_1.default("https://statsapi.web.nhl.com/api/v1/game/" + gamePk + "/feed/live")];
+                return [4 /*yield*/, axios_1.default("https://api-web.nhle.com/v1/gamecenter/" + gamePk + "/play-by-play")];
             case 4:
                 gameEvents = _b.sent();
                 return [4 /*yield*/, axios_1.default("https://api.nhle.com/stats/rest/en/shiftcharts?cayenneExp=gameId=" + gamePk)];
@@ -317,7 +317,7 @@ var crawlShifts = function (startDate, endDate) { return __awaiter(void 0, void 
                 if (!!gamePks_2_1.done) return [3 /*break*/, 7];
                 gamePk = gamePks_2_1.value;
                 console.log("Beginning game " + gamePk);
-                return [4 /*yield*/, axios_1.default("https://statsapi.web.nhl.com/api/v1/game/" + gamePk + "/feed/live")];
+                return [4 /*yield*/, axios_1.default("https://api-web.nhle.com/v1/gamecenter/" + gamePk + "/play-by-play")];
             case 4:
                 gameEvents = _b.sent();
                 return [4 /*yield*/, axios_1.default("https://api.nhle.com/stats/rest/en/shiftcharts?cayenneExp=gameId=" + gamePk)];
@@ -380,7 +380,7 @@ var crawlResults = function (startDate, endDate) { return __awaiter(void 0, void
                 if (!!gamePks_3_1.done) return [3 /*break*/, 8];
                 gamePk = gamePks_3_1.value;
                 console.log("Beginning game " + gamePk);
-                return [4 /*yield*/, axios_1.default("https://statsapi.web.nhl.com/api/v1/game/" + gamePk + "/feed/live")];
+                return [4 /*yield*/, axios_1.default("https://api-web.nhle.com/v1/gamecenter/" + gamePk + "/play-by-play")];
             case 4:
                 gameEvents = _b.sent();
                 return [4 /*yield*/, axios_1.default("https://api.nhle.com/stats/rest/en/shiftcharts?cayenneExp=gameId=" + gamePk)];
@@ -442,7 +442,7 @@ var crawlGames = function (startDate, endDate) { return __awaiter(void 0, void 0
                 _a.label = 1;
             case 1:
                 if (!(date_1 <= endDateTime)) return [3 /*break*/, 4];
-                return [4 /*yield*/, axios_1.default("https://statsapi.web.nhl.com/api/v1/schedule?date=" + date_1.toISOString().split('T')[0])];
+                return [4 /*yield*/, axios_1.default("https://api-web.nhle.com/v1/schedule-calendar/" + date_1.toISOString().split('T')[0])];
             case 2:
                 schedule = _a.sent();
                 if (!schedule.data.dates.length) {

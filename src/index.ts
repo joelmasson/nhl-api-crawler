@@ -21,7 +21,7 @@ import { getShifts } from './utils/ShiftParser'
 export const crawlTeams = async () => {
   console.log('Beginning team crawl')
   const teams: Team[] = []
-  const teamProfiles: TeamProfile = await request(`http://statsapi.web.nhl.com/api/v1/teams`)
+  const teamProfiles: TeamProfile = await request(`https://api.nhle.com/stats/rest/en/team`)
   for (let i: number = 0; i < teamProfiles.data.teams.length; i += 1) {
     const teamData: TeamData = teamProfiles.data.teams[i]
     const team: Team = {
@@ -83,7 +83,7 @@ export const crawlPlayers = async (startYear: string, endYear: string) => {
   const playerProfiles: Player[] = []
   for (const playerId of playerIdSet) {
     console.log(`fetching player ${playerId}`)
-    const playerProfile: PlayerProfile = await request(`https://statsapi.web.nhl.com/api/v1/people/${playerId}?expand=person`)
+    const playerProfile: PlayerProfile = await request(`https://api-web.nhle.com/v1/player/${playerId}/landing`)
     const playerData: Person = playerProfile.data.people[0]
     playerProfiles.push({
       id: playerData.id,
@@ -123,7 +123,7 @@ export const crawlEvents = async (startDate: string, endDate: string) => {
   for (const gamePk of gamePks) {
     console.log(`Beginning game ${gamePk}`)
 
-    const gameEvents: GameEvents = await request(`https://statsapi.web.nhl.com/api/v1/game/${gamePk}/feed/live`)
+    const gameEvents: GameEvents = await request(`https://api-web.nhle.com/v1/gamecenter/${gamePk}/play-by-play`)
     const gameShifts: GameShifts = await request(`https://api.nhle.com/stats/rest/en/shiftcharts?cayenneExp=gameId=${gamePk}`)
 
     if (gameEvents.data.gameData.status.abstractGameState !== 'Final') {
@@ -161,7 +161,7 @@ export const crawlShifts = async (startDate: string, endDate: string) => {
   for (const gamePk of gamePks) {
     console.log(`Beginning game ${gamePk}`)
 
-    const gameEvents: GameEvents = await request(`https://statsapi.web.nhl.com/api/v1/game/${gamePk}/feed/live`)
+    const gameEvents: GameEvents = await request(`https://api-web.nhle.com/v1/gamecenter/${gamePk}/play-by-play`)
     const gameShifts: GameShifts = await request(`https://api.nhle.com/stats/rest/en/shiftcharts?cayenneExp=gameId=${gamePk}`)
 
     if (gameEvents.data.gameData.status.abstractGameState !== 'Final') {
@@ -199,7 +199,7 @@ export const crawlResults = async (startDate: string, endDate: string) => {
   for (const gamePk of gamePks) {
     console.log(`Beginning game ${gamePk}`)
 
-    const gameEvents: GameEvents = await request(`https://statsapi.web.nhl.com/api/v1/game/${gamePk}/feed/live`)
+    const gameEvents: GameEvents = await request(`https://api-web.nhle.com/v1/gamecenter/${gamePk}/play-by-play`)
     const gameShifts: GameShifts = await request(`https://api.nhle.com/stats/rest/en/shiftcharts?cayenneExp=gameId=${gamePk}`)
     const gameSummaries: GameSummaries = await request(
       `https://api.nhle.com/stats/rest/en/team/summary?reportType=basic&isGame=true&reportName=teamsummary&cayenneExp=gameId=${gamePk}`
@@ -246,7 +246,7 @@ const crawlGames = async (startDate: string, endDate: string) => {
 
   let gamePks: number[] = []
   for (const date: Date = startDateTime; date <= endDateTime; date.setDate(date.getDate() + 1)) {
-    const schedule: any = await request(`https://statsapi.web.nhl.com/api/v1/schedule?date=${date.toISOString().split('T')[0]}`)
+    const schedule: any = await request(`https://api-web.nhle.com/v1/schedule-calendar/${date.toISOString().split('T')[0]}`)
 
     if (!schedule.data.dates.length) {
       continue
